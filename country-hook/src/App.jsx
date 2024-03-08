@@ -21,6 +21,10 @@ const useCountry = (name) => {
 
   useEffect(() => {
     (async (name) => {
+      if (name === "") {
+        setCountry(null);
+        return;
+      }
       try {
         const result = await get(name);
         console.log(result);
