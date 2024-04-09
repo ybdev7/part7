@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
+import userService from "./services/users";
 import loginService from "./services/login";
 import BlogForm from "./components/blogForm";
 import Message from "./components/Message";
@@ -9,10 +10,14 @@ import Togglable from "./components/Toggable";
 import sorter from "./utils/sorter";
 import { showNotification } from "./reducers/notificatonReducer";
 import { useDispatch, useSelector } from "react-redux";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Blogs from "./components/Blogs";
+import Users from "./components/Users";
 
 const App = () => {
   const dispatch = useDispatch();
   const [blogs, setBlogs] = useState([]);
+  const [users, setUsers] = useState([]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -34,6 +39,7 @@ const App = () => {
     setUser(null);
     window.localStorage.removeItem("loggedBloglistUser");
     blogService.removeToken();
+    userService.removeToken();
 
     dispatch(showNotification("Successfully logged out"));
   };
@@ -47,6 +53,7 @@ const App = () => {
       });
       setUser(user);
       blogService.setToken(user.token);
+      userService.setToken(user.token);
       window.localStorage.setItem("loggedBloglistUser", JSON.stringify(user));
 
       setUsername("");
@@ -115,6 +122,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
+    userService.getAll().then((users) => setUsers(users));
   }, []);
 
   //get token, if previously logged in
@@ -125,6 +133,7 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
       blogService.setToken(user.token);
+      userService.setToken(user.token);
     }
   }, []);
 
@@ -147,6 +156,7 @@ const App = () => {
   }
 
   console.log("blogs=", blogs);
+  console.log("users=", users);
   return (
     <div>
       <h2>Blogs</h2>
@@ -155,19 +165,23 @@ const App = () => {
         {user.name} is logged in
         <button onClick={handleLogout}>Logout</button>
       </div>
-      <Togglable buttonLabel="Create New Blog" ref={newBlogFormRef}>
-        <BlogForm addBlog={addBlog} />
-      </Togglable>
 
-      {blogs.sort(sorter.likesComparerDESC).map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          like={like}
-          deleteBlog={deleteBlog}
-          user={user}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Blogs
+              blogs={blogs}
+              like={like}
+              deleteBlog={deleteBlog}
+              user={user}
+              addBlog={addBlog}
+              newBlogFormRef={newBlogFormRef}
+            />
+          }
         />
-      ))}
+        <Route path="/users" element={<Users users={users} />} />
+      </Routes>
     </div>
   );
 };
