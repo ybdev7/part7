@@ -10,11 +10,21 @@ import Togglable from "./components/Toggable";
 import sorter from "./utils/sorter";
 import { showNotification } from "./reducers/notificatonReducer";
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useMatch,
+  useNavigate,
+} from "react-router-dom";
 import Blogs from "./components/Blogs";
 import Users from "./components/Users";
+import User from "./components/User";
 
 const App = () => {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const [blogs, setBlogs] = useState([]);
   const [users, setUsers] = useState([]);
@@ -40,6 +50,8 @@ const App = () => {
     window.localStorage.removeItem("loggedBloglistUser");
     blogService.removeToken();
     userService.removeToken();
+    //return to home page
+    navigate("/");
 
     dispatch(showNotification("Successfully logged out"));
   };
@@ -137,6 +149,10 @@ const App = () => {
     }
   }, []);
 
+  //match route for user
+  const match = useMatch("/users/:id");
+  const userMatch = match ? users.find((u) => u.id === match.params.id) : null;
+
   //App
   const msg = error !== "" ? error : message;
   if (user === null) {
@@ -157,6 +173,7 @@ const App = () => {
 
   console.log("blogs=", blogs);
   console.log("users=", users);
+  console.log("matched user in app=", userMatch);
   return (
     <div>
       <h2>Blogs</h2>
@@ -183,6 +200,7 @@ const App = () => {
           }
         />
         <Route path="/users" element={<Users users={users} />} />
+        <Route path="/users/:id" element={<User user={userMatch} />} />
       </Routes>
     </div>
   );
