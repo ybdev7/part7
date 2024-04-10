@@ -21,6 +21,7 @@ import {
 import Blogs from "./components/Blogs";
 import Users from "./components/Users";
 import User from "./components/User";
+import Menu from "./components/Menu";
 
 const App = () => {
   const navigate = useNavigate();
@@ -185,15 +186,10 @@ const App = () => {
 
   return (
     <div>
-      <h2>Blogs</h2>
-      <Message message={msg} isError={error !== ""} />
-      <div>
-        {user.name} is logged in
-        <div>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      </div>
+      <Menu user={user} handleLogout={handleLogout} />
 
+      <h2>Blogs app</h2>
+      <Message message={msg} isError={error !== ""} />
       <Routes>
         <Route
           path="/"
