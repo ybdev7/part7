@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 import sorter from "../utils/sorter";
-import Blog from "./Blog";
 import Togglable from "./Toggable";
 import BlogForm from "./blogForm";
 
-const Blogs = ({ blogs, like, deleteBlog, user, addBlog, newBlogFormRef }) => {
+const Blogs = ({ blogs, addBlog, newBlogFormRef }) => {
   const borderStyle = { border: `1px solid grey` };
   return (
     <div>

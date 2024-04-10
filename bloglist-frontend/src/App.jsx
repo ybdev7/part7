@@ -88,6 +88,7 @@ const App = () => {
 
         showError(ex.response.data.error);
       }
+      navigate("/");
     }
   };
   const like = async (blog) => {
@@ -199,9 +200,6 @@ const App = () => {
           element={
             <Blogs
               blogs={blogs}
-              like={like}
-              deleteBlog={deleteBlog}
-              user={user}
               addBlog={addBlog}
               newBlogFormRef={newBlogFormRef}
             />
