@@ -163,7 +163,9 @@ const App = () => {
       <Message message={msg} isError={error !== ""} />
       <div>
         {user.name} is logged in
-        <button onClick={handleLogout}>Logout</button>
+        <div>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
       </div>
 
       <Routes>

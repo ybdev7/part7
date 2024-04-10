@@ -1,9 +1,9 @@
 const User = ({ user }) => {
   return (
-    <tr>
-      <td>{user.name}</td>
-      <td>{user.blogs.length}</td>
-    </tr>
+    <div>
+      <h2>{user.name}</h2>
+      <div>{user.blogs.length}</div>
+    </div>
   );
 };
 
