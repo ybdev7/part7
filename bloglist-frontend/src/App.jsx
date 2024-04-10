@@ -153,6 +153,12 @@ const App = () => {
   const match = useMatch("/users/:id");
   const userMatch = match ? users.find((u) => u.id === match.params.id) : null;
 
+  //match for blog
+  const matchB = useMatch("/blogs/:id");
+  const blogMatch = matchB
+    ? blogs.find((u) => u.id === matchB.params.id)
+    : null;
+
   //App
   const msg = error !== "" ? error : message;
   if (user === null) {
@@ -174,6 +180,8 @@ const App = () => {
   console.log("blogs=", blogs);
   console.log("users=", users);
   console.log("matched user in app=", userMatch);
+  console.log("matched blog in app=", blogMatch);
+
   return (
     <div>
       <h2>Blogs</h2>
@@ -201,6 +209,17 @@ const App = () => {
         />
         <Route path="/users" element={<Users users={users} />} />
         <Route path="/users/:id" element={<User user={userMatch} />} />
+        <Route
+          path="/blogs/:id"
+          element={
+            <Blog
+              blog={blogMatch}
+              like={like}
+              deleteBlog={deleteBlog}
+              user={user}
+            />
+          }
+        />
       </Routes>
     </div>
   );

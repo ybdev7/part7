@@ -2,6 +2,13 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 
 const Blog = ({ blog, like, deleteBlog, user }) => {
+  if (!user) {
+    return null;
+  }
+  if (!blog) {
+    return null;
+  }
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -27,8 +34,24 @@ const Blog = ({ blog, like, deleteBlog, user }) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} by {blog.author}{" "}
-      <button onClick={handleToggleDetails}>{btnText}</button>
+      <h2>
+        {blog.title} by {blog.author}{" "}
+      </h2>
+      <p>
+        Likes {blog.likes} <button onClick={handleLike}>Like</button>
+      </p>
+      <p>added by {blog.user.name}</p>
+      {authorizedToDelete && (
+        <button
+          onClick={() => {
+            deleteBlog(blog);
+          }}
+        >
+          Remove
+        </button>
+      )}
+
+      {/* <button onClick={handleToggleDetails}>{btnText}</button>
       {showDetails && (
         <p>
           Likes {blog.likes} <button onClick={handleLike}>Like</button>
@@ -43,7 +66,7 @@ const Blog = ({ blog, like, deleteBlog, user }) => {
         >
           Remove
         </button>
-      )}
+      )} */}
     </div>
   );
 };
