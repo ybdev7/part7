@@ -37,6 +37,18 @@ const Blog = ({ blog, like, deleteBlog, user }) => {
         <a href={externalUrl}>{blog.url}</a>
       </p>
       <p>added by {blog.user.name}</p>
+
+      <h3>Comments</h3>
+      {blog.comments && blog.comments.length ? (
+        <ul>
+          {blog.comments.map((c) => (
+            <li key={c.id}>{c.comment}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>No comments</p>
+      )}
+
       {authorizedToDelete && (
         <button
           onClick={() => {
