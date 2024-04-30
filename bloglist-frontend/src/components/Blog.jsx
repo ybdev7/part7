@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import blogs from "../services/blogs";
 
 const Blog = ({ blog, like, deleteBlog, user }) => {
   if (!user) {
@@ -18,6 +19,10 @@ const Blog = ({ blog, like, deleteBlog, user }) => {
     like(blog);
   };
 
+  const addComment = async () => {
+    const updatedBlog = await blogs.comment(blog, "this is a comment1");
+    blog.comments = updatedBlog.comments;
+  };
   const authorizedToDelete =
     user.username.toString() == blog.user.username.toString();
 
@@ -42,12 +47,15 @@ const Blog = ({ blog, like, deleteBlog, user }) => {
       {blog.comments && blog.comments.length ? (
         <ul>
           {blog.comments.map((c) => (
-            <li key={c.id}>{c.comment}</li>
+            <li key={`comment-${c.id}`}>{c.comment}</li>
           ))}
         </ul>
       ) : (
         <p>No comments</p>
       )}
+      <p>
+        <button onClick={addComment}>Add Comment</button>
+      </p>
 
       {authorizedToDelete && (
         <button

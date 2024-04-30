@@ -33,6 +33,20 @@ const update = async (blog) => {
   return res.data;
 };
 
+const comment = async (blog, comment) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+
+  console.log("comment=", comment);
+  const res = await axios.post(
+    `${baseUrl}/${blog.id}/comments`,
+    { id: blog.id, comment: comment },
+    config
+  );
+  return res.data;
+};
+
 const deleteBlog = async (id) => {
   const config = {
     headers: { Authorization: token },
@@ -40,4 +54,12 @@ const deleteBlog = async (id) => {
   const res = await axios.delete(`${baseUrl}/${id}`, config);
   return res;
 };
-export default { setToken, removeToken, getAll, create, update, deleteBlog };
+export default {
+  setToken,
+  removeToken,
+  getAll,
+  create,
+  update,
+  deleteBlog,
+  comment,
+};

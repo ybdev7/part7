@@ -55,6 +55,27 @@ blogsRouter.post("/", middleware.userExtractor, async (req, res, next) => {
   res.status(201).json(newBlog);
 });
 
+/**Add a comment */
+blogsRouter.post(
+  "/:id/comments",
+  middleware.userExtractor,
+  async (req, res, next) => {
+    const blog = await Blog.findById(req.params.id).populate("user", {
+      username: 1,
+      name: 1,
+    });
+    var comment = { comment: req.body.comment };
+    blog.comments.push(comment);
+    blog.save();
+
+    if (blog) {
+      res.json(blog);
+    } else {
+      res.status(404).end();
+    }
+  }
+);
+
 blogsRouter.delete("/:id", middleware.userExtractor, async (req, res, next) => {
   const blog = await Blog.findById(req.params.id);
 
