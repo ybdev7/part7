@@ -22,6 +22,7 @@ import Blogs from "./components/Blogs";
 import Users from "./components/Users";
 import User from "./components/User";
 import Menu from "./components/Menu";
+import { Container } from "@mui/material";
 
 const App = () => {
   const navigate = useNavigate();
@@ -204,38 +205,40 @@ const App = () => {
   console.log("matched blog in app=", blogMatch);
 
   return (
-    <div>
-      <Menu user={user} handleLogout={handleLogout} />
+    <Container>
+      <div>
+        <Menu user={user} handleLogout={handleLogout} />
 
-      <h2>Blogs app</h2>
-      <Message message={msg} isError={error !== ""} />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Blogs
-              blogs={blogs}
-              addBlog={addBlog}
-              newBlogFormRef={newBlogFormRef}
-            />
-          }
-        />
-        <Route path="/users" element={<Users users={users} />} />
-        <Route path="/users/:id" element={<User user={userMatch} />} />
-        <Route
-          path="/blogs/:id"
-          element={
-            <Blog
-              blog={blogMatch}
-              like={like}
-              deleteBlog={deleteBlog}
-              commentBlog={commentBlog}
-              user={user}
-            />
-          }
-        />
-      </Routes>
-    </div>
+        <h2>Blogs app</h2>
+        <Message message={msg} isError={error !== ""} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Blogs
+                blogs={blogs}
+                addBlog={addBlog}
+                newBlogFormRef={newBlogFormRef}
+              />
+            }
+          />
+          <Route path="/users" element={<Users users={users} />} />
+          <Route path="/users/:id" element={<User user={userMatch} />} />
+          <Route
+            path="/blogs/:id"
+            element={
+              <Blog
+                blog={blogMatch}
+                like={like}
+                deleteBlog={deleteBlog}
+                commentBlog={commentBlog}
+                user={user}
+              />
+            }
+          />
+        </Routes>
+      </div>
+    </Container>
   );
 };
 
