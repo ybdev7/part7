@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { useState } from "react";
 
 const BlogForm = ({ addBlog }) => {
@@ -38,7 +39,7 @@ const BlogForm = ({ addBlog }) => {
       <div>
         URL <input value={newUrl} onChange={handleUrlChange} />{" "}
       </div>
-      <button type="submit">Create</button>
+      <Button type="submit">Create</Button>
     </form>
   );
 };
