@@ -92,6 +92,25 @@ const App = () => {
       navigate("/");
     }
   };
+
+  const commentBlog = async (blog, comment) => {
+    try {
+      const updatingBlog = await blogService.comment(blog, comment);
+
+      const upb = blogs.map((b) => {
+        return b.id === updatingBlog.id ? updatingBlog : b;
+      });
+
+      //update blogs
+      setBlogs(upb);
+      return updatingBlog;
+    } catch (ex) {
+      console.log("!!Error ", ex);
+
+      showError(ex.error);
+      return null;
+    }
+  };
   const like = async (blog) => {
     try {
       const updatingBlog = { ...blog, likes: blog.likes + 1 };
@@ -210,6 +229,7 @@ const App = () => {
               blog={blogMatch}
               like={like}
               deleteBlog={deleteBlog}
+              commentBlog={commentBlog}
               user={user}
             />
           }
