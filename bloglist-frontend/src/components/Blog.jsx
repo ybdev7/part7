@@ -1,6 +1,17 @@
 import PropTypes from "prop-types";
 import blogs from "../services/blogs";
 import { useState } from "react";
+import {
+  Button,
+  Container,
+  FormLabel,
+  Grid,
+  Link,
+  List,
+  ListItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 const Blog = ({ blog, like, deleteBlog, commentBlog, user }) => {
   const [comments, setComments] = useState(blog.comments);
@@ -12,12 +23,6 @@ const Blog = ({ blog, like, deleteBlog, commentBlog, user }) => {
     return null;
   }
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    marginBottom: 5,
-  };
-
   const handleLike = (e) => {
     like(blog);
   };
@@ -25,6 +30,7 @@ const Blog = ({ blog, like, deleteBlog, commentBlog, user }) => {
   const addComment = async () => {
     const updatedBlog = await commentBlog(blog, comment); //const updatedBlog = await blogs.comment(blog, comment);
     setComments(updatedBlog.comments);
+    setComment("");
   };
   const authorizedToDelete =
     user.username.toString() == blog.user.username.toString();
@@ -34,46 +40,57 @@ const Blog = ({ blog, like, deleteBlog, commentBlog, user }) => {
     : `https://${blog.url}`;
   console.log(externalUrl);
   return (
-    <div style={blogStyle}>
-      <h2>
-        {blog.title} by {blog.author}{" "}
-      </h2>
-      <p>
-        Likes {blog.likes} <button onClick={handleLike}>Like</button>
-      </p>
-      <p>
-        <a href={externalUrl}>{blog.url}</a>
-      </p>
-      <p>added by {blog.user.name}</p>
-
-      <h3>Comments</h3>
+    <div>
+      <Typography variant="h3">
+        {blog.title} by {blog.author}
+      </Typography>
+      <Typography variant="h6" component="label">
+        Likes {blog.likes}
+      </Typography>
+      <Button size="small" variant="outlined" onClick={handleLike}>
+        Like
+      </Button>
+      <div>
+        <Link href={externalUrl}>{blog.url}</Link>
+      </div>
+      <Typography variant="h6">added by {blog.user.name}</Typography>
+      <div>
+        {authorizedToDelete && (
+          <Button
+            variant="contained"
+            onClick={() => {
+              deleteBlog(blog);
+            }}
+          >
+            Remove Blog
+          </Button>
+        )}
+      </div>
+      <Typography variant="h3">Comments</Typography>
+      <Grid display="flex" justifyContent="left" alignItems="center" container>
+        <Grid item>
+          <TextField
+            size="small"
+            margin="normal"
+            label="Comment"
+            value={comment}
+            onChange={({ target }) => setComment(target.value)}
+          />
+        </Grid>
+        <Grid item>
+          <Button size="small" variant="outlined" onClick={addComment}>
+            Add Comment
+          </Button>
+        </Grid>
+      </Grid>
       {comments && comments.length ? (
-        <ul>
+        <List dense={true}>
           {comments.map((c) => (
-            <li key={`comment-${c._id}`}>{c.comment}</li>
+            <ListItem key={`comment-${c._id}`}>{c.comment}</ListItem>
           ))}
-        </ul>
+        </List>
       ) : (
-        <p>No comments</p>
-      )}
-      <p>
-        <input
-          type="text"
-          value={comment}
-          name="Comment"
-          onChange={({ target }) => setComment(target.value)}
-        />{" "}
-        <button onClick={addComment}>Add Comment</button>
-      </p>
-
-      {authorizedToDelete && (
-        <button
-          onClick={() => {
-            deleteBlog(blog);
-          }}
-        >
-          Remove
-        </button>
+        <FormLabel>No comments</FormLabel>
       )}
     </div>
   );

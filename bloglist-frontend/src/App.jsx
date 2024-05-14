@@ -22,7 +22,7 @@ import Blogs from "./components/Blogs";
 import Users from "./components/Users";
 import User from "./components/User";
 import Menu from "./components/Menu";
-import { Container } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./utils/theme";
 
@@ -216,7 +216,9 @@ const App = () => {
         <div>
           <Menu user={user} handleLogout={handleLogout} />
 
-          <h2>Blogs app</h2>
+          <Typography color={theme.palette.primary.main} variant="h2">
+            Blogs app
+          </Typography>
           <Message message={msg} isError={error !== ""} />
           <Routes>
             <Route
