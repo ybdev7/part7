@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Button, FormLabel, TextField } from "@mui/material";
+import { useTheme } from "@emotion/react";
 
 const LoginForm = ({
   username,
@@ -7,11 +9,15 @@ const LoginForm = ({
   setPassword,
   handleLogin,
 }) => {
+  const theme = useTheme();
+  console.log(theme.spacing(2));
   return (
     <form onSubmit={handleLogin}>
       <div>
-        Username
-        <input
+        <TextField
+          margin="normal"
+          label="Username"
+          size="small"
           type="text"
           value={username}
           name="Username"
@@ -19,15 +25,21 @@ const LoginForm = ({
         />
       </div>
       <div>
-        Password
-        <input
+        <TextField
+          margin="normal"
+          label="Password"
+          size="small"
           type="password"
           value={password}
           name="Password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <button type="submit">Login</button>
+      <div>
+        <Button variant="contained" color="primary" type="submit">
+          Login
+        </Button>
+      </div>
     </form>
   );
 };

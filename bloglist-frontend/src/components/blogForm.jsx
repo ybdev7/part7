@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, FormLabel, TextField } from "@mui/material";
 import { useState } from "react";
 
 const BlogForm = ({ addBlog }) => {
@@ -31,13 +31,31 @@ const BlogForm = ({ addBlog }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div>
-        Title <input value={newTitle} onChange={handleTitleChange} />
+        <TextField
+          margin="normal"
+          label="Title"
+          size="small"
+          value={newTitle}
+          onChange={handleTitleChange}
+        />
       </div>
       <div>
-        Author <input value={newAuthor} onChange={handleAuthorChange} />{" "}
+        <TextField
+          margin="normal"
+          label="Author"
+          size="small"
+          value={newAuthor}
+          onChange={handleAuthorChange}
+        />{" "}
       </div>
       <div>
-        URL <input value={newUrl} onChange={handleUrlChange} />{" "}
+        <TextField
+          margin="normal"
+          label="URL"
+          size="small"
+          value={newUrl}
+          onChange={handleUrlChange}
+        />{" "}
       </div>
       <Button type="submit">Create</Button>
     </form>
