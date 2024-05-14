@@ -23,6 +23,8 @@ import Users from "./components/Users";
 import User from "./components/User";
 import Menu from "./components/Menu";
 import { Container } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./utils/theme";
 
 const App = () => {
   const navigate = useNavigate();
@@ -185,17 +187,21 @@ const App = () => {
   const msg = error !== "" ? error : message;
   if (user === null) {
     return (
-      <div>
-        <h2>Log in to Blogs</h2>
-        <Message message={msg} isError={error !== ""} />
-        <LoginForm
-          username={username}
-          password={password}
-          setUsername={setUsername}
-          setPassword={setPassword}
-          handleLogin={handleLogin}
-        />
-      </div>
+      <ThemeProvider theme={theme}>
+        <Container>
+          <div>
+            <h2>Log in to Blogs</h2>
+            <Message message={msg} isError={error !== ""} />
+            <LoginForm
+              username={username}
+              password={password}
+              setUsername={setUsername}
+              setPassword={setPassword}
+              handleLogin={handleLogin}
+            />
+          </div>
+        </Container>
+      </ThemeProvider>
     );
   }
 
@@ -205,40 +211,42 @@ const App = () => {
   console.log("matched blog in app=", blogMatch);
 
   return (
-    <Container>
-      <div>
-        <Menu user={user} handleLogout={handleLogout} />
+    <ThemeProvider theme={theme}>
+      <Container>
+        <div>
+          <Menu user={user} handleLogout={handleLogout} />
 
-        <h2>Blogs app</h2>
-        <Message message={msg} isError={error !== ""} />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Blogs
-                blogs={blogs}
-                addBlog={addBlog}
-                newBlogFormRef={newBlogFormRef}
-              />
-            }
-          />
-          <Route path="/users" element={<Users users={users} />} />
-          <Route path="/users/:id" element={<User user={userMatch} />} />
-          <Route
-            path="/blogs/:id"
-            element={
-              <Blog
-                blog={blogMatch}
-                like={like}
-                deleteBlog={deleteBlog}
-                commentBlog={commentBlog}
-                user={user}
-              />
-            }
-          />
-        </Routes>
-      </div>
-    </Container>
+          <h2>Blogs app</h2>
+          <Message message={msg} isError={error !== ""} />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Blogs
+                  blogs={blogs}
+                  addBlog={addBlog}
+                  newBlogFormRef={newBlogFormRef}
+                />
+              }
+            />
+            <Route path="/users" element={<Users users={users} />} />
+            <Route path="/users/:id" element={<User user={userMatch} />} />
+            <Route
+              path="/blogs/:id"
+              element={
+                <Blog
+                  blog={blogMatch}
+                  like={like}
+                  deleteBlog={deleteBlog}
+                  commentBlog={commentBlog}
+                  user={user}
+                />
+              }
+            />
+          </Routes>
+        </div>
+      </Container>
+    </ThemeProvider>
   );
 };
 
