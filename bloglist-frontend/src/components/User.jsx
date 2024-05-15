@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import BookIcon from "@mui/icons-material/Book";
+import BlogIcon from "./BlogIcon";
 
 const User = ({ user }) => {
   console.log("matched user=", user);
@@ -24,9 +25,7 @@ const User = ({ user }) => {
           // <ListItem key={`blog_${b.id}`}>{b.title}</ListItem>
           <ListItem key={`blog_${b.id}`}>
             <ListItemAvatar>
-              <Avatar>
-                <BookIcon />
-              </Avatar>
+              <BlogIcon />
             </ListItemAvatar>
             <ListItemText primary={b.title} />
           </ListItem>
